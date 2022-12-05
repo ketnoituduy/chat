@@ -2,8 +2,8 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 
-server.listen(process.env.PORT || 8000, ()=>{
-    console.log('listen port 8000')
+server.listen(process.env.PORT || 9000, ()=>{
+    console.log('listen port 9000')
 })
 
 const router = express.Router()
