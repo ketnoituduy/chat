@@ -2,13 +2,14 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 
-server.listen(process.env.PORT || 9000, ()=>{
-    console.log('listen port 9000')
+server.listen(process.env.PORT || 8000, ()=>{
+    console.log('listen port 8000')
 })
 
 const router = express.Router()
 router.get('/',(req,res) =>{
-    res.render('login',{result:[]})
+    //res.render('login',{result:[]})
+    res.json({message: "hello chat"})
 })
 //body parse
 var bodyparser = require('body-parser');
