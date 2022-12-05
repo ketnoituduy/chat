@@ -8,8 +8,8 @@ server.listen(process.env.PORT || 8000, ()=>{
 
 const router = express.Router()
 router.get('/',(req,res) =>{
-    //res.render('login',{result:[]})
-    res.json({message: "hello chat"})
+    res.render('login',{result:[]})
+    //res.json({message: "hello chat"})
 })
 //body parse
 var bodyparser = require('body-parser');
