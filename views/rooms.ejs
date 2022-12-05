@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rooms</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <form id="rooms" method="post" action="/createRoom">
+            <h1>ROOMS</h1>
+            <!-- <input type="submit" id="btnCreateRoom" value="+"> -->
+        </form>
+        <form id="danhsachRoom">
+            <ul>
+                <li>room1</li>
+                <li>room2</li>
+                <li>room3</li>
+                <li>room4</li>
+                <li>room5</li>
+            </ul>
+        </form>
+    </div>
+</body>
+<script src="rooms.js"></script>
+</html>
