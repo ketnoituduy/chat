@@ -24,7 +24,7 @@ app.use(bodyparser.urlencoded({extended:false}));
 app.use(bodyparser.json());
 
 //database
-const mysql = require('mysql')
+const mysql = require('mysql2')
 const dbChat = mysql.createConnection({
     user:'root',
     password:'ketGIW2NkSM8oBTibS7w',
