@@ -90,7 +90,6 @@ app.post('/',(req,res) =>{
 
 //kiem tra login
 app.post('/rooms',(req,res)=>{
-    res.render('rooms')
     const email = req.body.email
     const password = req.body.pass
     const query = `select * from account where (email = '${email}') and (password = '${password}');`
