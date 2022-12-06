@@ -26,11 +26,11 @@ app.use(bodyparser.json());
 //database
 const mysql = require('mysql')
 const dbChat = mysql.createConnection({
-    user:DB_USER,
-    password:DB_PASSWORD,
-    host:DB_HOST,
-    database:DB_NAME,
-    port:DB_PORT
+    user:'root',
+    password:'0Z65olomiIsKCmSzIh0t',
+    host:'containers-us-west-80.railway.app',
+    database:'railway',
+    port:6348
 })
 
 // const dbChat = mysql.createConnection({
