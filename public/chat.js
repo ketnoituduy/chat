@@ -1,4 +1,7 @@
-const socket = io('https://chat-production-049e.up.railway.app/')
+
+import { domain } from "./config.js"
+
+const socket = io(domain)
 
 // const ulUsername = document.querySelector('ul')
 const logout = document.getElementById('logout')
@@ -52,7 +55,7 @@ let nameRoom = ''
 
 
 logout.addEventListener('click',()=>{
-    location = 'https://chat-production-049e.up.railway.app/'
+    location = domain
 })
 btnSend.addEventListener('click',()=>{
     

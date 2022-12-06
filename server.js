@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const server = require('http').Server(app)
 
-server.listen(process.env.PORT || 8000, ()=>{
+server.listen(process.env.PORT || 6348, ()=>{
     console.log('listen port 8000')
 })
 
@@ -18,23 +18,12 @@ app.use(bodyparser.json());
 
 //database
 const mysql = require('mysql')
-// const db = mysql.createConnection({
-//     user:'root',
-//     password:'root123',
-//     host:'localhost',
-//     database:'testDatabase'
-// })
-// const dbRooms = mysql.createConnection({
-//     user:'root',
-//     password:'root123',
-//     host:'localhost',
-//     database:'roomsDatabase'
-// })
 const dbChat = mysql.createConnection({
     user:'root',
     password:'TZzWwblGxwbo7o3fa9hE',
     host:'containers-us-west-80.railway.app',
-    database:'railway'
+    database:'railway',
+    port:6348
 })
 
 // const dbChat = mysql.createConnection({
@@ -43,7 +32,6 @@ const dbChat = mysql.createConnection({
 //     host:'localhost',
 //     database:'chatDatabase'
 // })
-//dbChat.query(`insert into user (username,password) values ('vu','123');`) 
 
 app.set('view engine','ejs')
 app.set('views','./views')

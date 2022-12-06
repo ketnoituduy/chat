@@ -1,5 +1,5 @@
-
-const socket = io('https://chat-production-049e.up.railway.app/')
+import { domain } from "./config.js"
+const socket = io(domain)
 const rooms = document.getElementById('rooms')
 const danhsachRoom = document.getElementById('danhsachRoom')
 const ulRoom = document.querySelector('ul')

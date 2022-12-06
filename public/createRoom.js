@@ -1,4 +1,6 @@
-const socket = io('http://192.168.1.10:8000')
+import { domain } from "./config.js"
+
+const socket = io(domain)
 const txtName = document.getElementById('txtName')
 const txtPass = document.getElementById('txtPass')
 const btnAdd = document.getElementById('btnAdd')
