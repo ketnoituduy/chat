@@ -1,4 +1,4 @@
-const socket = io('http://192.168.1.10:8000/')
+const socket = io('https://chat-production-049e.up.railway.app/')
 
 // const ulUsername = document.querySelector('ul')
 const logout = document.getElementById('logout')
@@ -52,7 +52,7 @@ let nameRoom = ''
 
 
 logout.addEventListener('click',()=>{
-    location = 'http://192.168.1.10:8000/'
+    location = 'https://chat-production-049e.up.railway.app/'
 })
 btnSend.addEventListener('click',()=>{
     

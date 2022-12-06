@@ -1,5 +1,5 @@
 
-const socket = io('http://192.168.1.10:8000/')
+const socket = io('https://chat-production-049e.up.railway.app/')
 const rooms = document.getElementById('rooms')
 const danhsachRoom = document.getElementById('danhsachRoom')
 const ulRoom = document.querySelector('ul')

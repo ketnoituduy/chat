@@ -18,31 +18,31 @@ app.use(bodyparser.json());
 
 //database
 const mysql = require('mysql')
-const db = mysql.createConnection({
-    user:'root',
-    password:'root123',
-    host:'localhost',
-    database:'testDatabase'
-})
-const dbRooms = mysql.createConnection({
-    user:'root',
-    password:'root123',
-    host:'localhost',
-    database:'roomsDatabase'
-})
-// const dbChat = mysql.createConnection({
-//     user:'id19962803_vu',
-//     password:'Eccz1_@dObq[iX{|',
+// const db = mysql.createConnection({
+//     user:'root',
+//     password:'root123',
 //     host:'localhost',
-//     database:'id19962803_testdatabase'
+//     database:'testDatabase'
 // })
-
+// const dbRooms = mysql.createConnection({
+//     user:'root',
+//     password:'root123',
+//     host:'localhost',
+//     database:'roomsDatabase'
+// })
 const dbChat = mysql.createConnection({
     user:'root',
-    password:'root123',
-    host:'localhost',
-    database:'chatDatabase'
+    password:'TZzWwblGxwbo7o3fa9hE',
+    host:'containers-us-west-80.railway.app',
+    database:'railway'
 })
+
+// const dbChat = mysql.createConnection({
+//     user:'root',
+//     password:'root123',
+//     host:'localhost',
+//     database:'chatDatabase'
+// })
 //dbChat.query(`insert into user (username,password) values ('vu','123');`) 
 
 app.set('view engine','ejs')
@@ -60,7 +60,7 @@ app.post('/',(req,res) =>{
     const password = req.body.password
     const rePassword = req.body.rePassword
     if (name && email && password && rePassword && (password == rePassword)){
-        const query = `select * from user where (email = '${email}')`
+        const query = `select * from account where (email = '${email}')`
         dbChat.query(query,(err,result) =>{
             if (err){
                 console.log(err)
@@ -71,7 +71,7 @@ app.post('/',(req,res) =>{
                     console.log('tai khoan khong hop le')
                 }
                 else{
-                    const info = `insert into user (username, email, password) values ('${name}','${email}','${password}');`
+                    const info = `insert into account (username, email, password) values ('${name}','${email}','${password}');`
                     dbChat.query(info,(err,result) =>{
                         if (err){
                             console.log(err)
@@ -97,7 +97,7 @@ app.post('/',(req,res) =>{
 app.post('/rooms',(req,res)=>{
     const email = req.body.email
     const password = req.body.pass
-    const query = `select * from user where (email = '${email}') and (password = '${password}');`
+    const query = `select * from account where (email = '${email}') and (password = '${password}');`
     dbChat.query(query,(err,result) =>{
         if (err){
             console.log(err)
@@ -106,8 +106,8 @@ app.post('/rooms',(req,res)=>{
             const kq = JSON.parse(JSON.stringify(result))
             //neu da co tai khoan thi dang nhap thanh cong
             if (kq.length > 0){
-                const username = `select username from user where (email = '${email}');`
-                db.query(username,(err,result)=>{
+                const username = `select username from account where (email = '${email}');`
+                dbChat.query(username,(err,result)=>{
                     if (err){
                         console.log(err)
                     }
