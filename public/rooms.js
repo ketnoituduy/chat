@@ -15,9 +15,12 @@ socket.on('server send Rooms',data =>{
     ulRoom.innerText = ''
     data.mangRoom.forEach(element => {
         const name = document.createElement('li')
+        name.style.background = 'black'
         name.style.position = 'relative'
+        name.style.borderColor = 'brown'
         ulRoom.append(name)
         const submit = document.createElement('input')
+        submit.style.width = '100%'
         submit.setAttribute('type','submit')
         submit.setAttribute('value',element.name)   
         submit.style.border = 'none'
@@ -25,6 +28,7 @@ socket.on('server send Rooms',data =>{
         submit.style.background = 'transparent'
         submit.style.fontSize = '1em'
         submit.style.cursor = 'pointer'
+        submit.style.color = 'white'
         name.append(submit)
         submit.addEventListener('click',(e)=>{
             danhsachRoom.setAttribute('action',`/chat/${element.name}`)

@@ -57,6 +57,7 @@
     font-size: 1.2em;
     padding: 5px;
     color: white;
+    cursor: pointer;
 }
 #singup{
     background-color: transparent;
@@ -81,7 +82,7 @@ h2{
 }
 .title{
     color: white;
-    font-size: 2em;
+    font-size: 1.5em;
     text-align: center;
 }
 .containerChat *{
@@ -206,9 +207,9 @@ h2{
     margin: 0;
     padding: 0;
 }
-#listRooms:hover .dropdown{
+/* #listRooms:hover .dropdown{
     display: block;
-}
+} */
 .dropdown a:hover {
     background-color:  #1e54a0;
     color: white;
@@ -228,7 +229,7 @@ h2{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: #c2671d1d;
+    /* background: #c2671d1d; */
     border-radius: 5px;
     padding: 5px;
 }

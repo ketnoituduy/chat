@@ -1,9 +1,9 @@
 
 const DB_PORT = process.env.PORT || 3000
-const DB_HOST = process.env.DB_HOST || 'localhost'
-const DB_USER = process.env.DB_USER || 'root'
-const DB_PASSWORD = process.env.DB_PASSWORD || '123'
-const DB_NAME = process.env.DB_NAME || 'chatDatabase'
+// const DB_HOST = process.env.DB_HOST || 'localhost'
+// const DB_USER = process.env.DB_USER || 'root'
+// const DB_PASSWORD = process.env.DB_PASSWORD || '123'
+// const DB_NAME = process.env.DB_NAME || 'chatDatabase'
 
 const express = require('express')
 const app = express()
@@ -25,6 +25,7 @@ app.use(bodyparser.json());
 
 //database
 const mysql = require('mysql2')
+const { json } = require('express')
 const dbChat = mysql.createConnection({
     user:'root',
     password:'ketGIW2NkSM8oBTibS7w',
@@ -181,6 +182,7 @@ let mangEmail = []
 let enterRoom = false
 let dataChat = []
 let nameRoom = ''
+let users = []
 
 //maxHttp dung de tang dung luong tai hon 1MB
 const io = require('socket.io')(server,{
@@ -189,19 +191,58 @@ const io = require('socket.io')(server,{
        
 io.on('connection',socket =>{
     console.log('ket noi thanh cong')
-    mangEmail.push(currentEmail)
+    users[currentEmail] = socket.id
+    //mangEmail.push(currentEmail)
+    const query = `insert into connection (email) values ('${currentEmail}');`
+    dbChat.query(query,(err,result)=>{
+        if (err){
+            console.log(err)
+        }
+        else{
+            const query = `select email from connection`
+            dbChat.query(query,(err,result)=>{
+                mangEmail = []
+                if (err){
+                    console.log(err)
+                }
+                else{
+                    const kq = JSON.parse(JSON.stringify(result))
+                    kq.forEach(e => {
+                        mangEmail.push(e.email)
+                    });
+                   // console.log('mangEmail ketnoi',mangEmail)
+                }
+            })
+        }
+    })
     socket.userName = currentUsername
     socket.email = currentEmail
-    // mangUser.push(currentUsername)
-    // socket.emit('server send user',socket.userName)
-    // io.sockets.emit('danh sach user',mangUser)
     socket.on('disconnect',()=>{
-        // const number = mangUser.indexOf(socket.userName)
-        // mangUser.splice(number,1)
-        // socket.broadcast.emit('danh sach user',mangUser)
-        const num = mangEmail.indexOf(socket.email)
-        mangEmail.splice(num,1)
-        console.log('mat ket noi')
+        const query = `delete from connection where (email = '${socket.email}');`
+        dbChat.query(query,(err,result)=>{
+            if (err){
+                console.log(err)
+            }
+            else{
+                const query = `select email from connection`
+                dbChat.query(query,(err,result)=>{
+                    mangEmail = []
+                    if (err){
+                        console.log(err)
+                    }
+                    else{
+                        const kq = JSON.parse(JSON.stringify(result))
+                        kq.forEach(e => {
+                            mangEmail.push(e.email)
+                        });
+                    }
+                })
+                // const num = mangEmail.indexOf(socket.email)
+                // mangEmail.splice(num,1)
+               // console.log('mangEmail mat ket noi',mangEmail)
+            }
+        })
+       
     })
     socket.emit('server send Rooms',{mangRoom:mangRoom,email:socket.email,username:currentUsername})
     socket.on('user vao phong chat',(data)=>{
@@ -221,7 +262,6 @@ io.on('connection',socket =>{
         })
     })
     socket.on('user send message', (data)=>{
-        console.log('hello data')
         let query = `insert into chat (nameRoom,username,email,message,day,file) values ('${data.nameRoom}','${data.username}','${data.email}','${data.message}','${data.day}','${data.file}')`
         dbChat.query(query,(err,result) =>{
             if (err){
@@ -234,16 +274,67 @@ io.on('connection',socket =>{
      })
     socket.emit('server tao phong chat',{dataChat:dataChat,nameRoom:nameRoom,currentUsername:currentUsername,email:currentEmail})
     socket.on('user select Room',name =>{
-    const query = `select * from chat where (nameRoom = '${name}')`
-    dbChat.query(query,(err,result)=>{
-        if (err){
-            console.log(err)
-        }
-        else{
-            const kq = JSON.parse(JSON.stringify(result))
-            socket.emit('server send dataChat',kq)
-        }
+        const query = `select * from chat where (nameRoom = '${name}')`
+        dbChat.query(query,(err,result)=>{
+            if (err){
+                console.log(err)
+            }
+            else{
+                const kq = JSON.parse(JSON.stringify(result))
+                socket.emit('server send dataChat',kq)
+            }
+        })
     })
+    socket.on('user delete message',data =>{
+        console.log('delete message')
+        const query = `update chat set message = '', file = '' where (day = '${data.day}')`
+        dbChat.query(query,(err,result) =>{
+            if (err){
+                console.log(err)
+            }
+            else{
+                io.sockets.emit('server send message delete',data)
+            }
+        })  
     })
+    socket.on('user delete privateMessage',data =>{
+        console.log('delete messsagePrivate')
+        const query = `update privateChat set message = '', file = '' where (day = '${data.day}')`
+        dbChat.query(query,(err,result) =>{
+            if (err){
+                console.log(err)
+            }
+            else{
+                io.to(users[data.fromEmail]).emit('server send privateMessage delete',data)
+                io.to(users[data.toEmail]).emit('server send privateMessage delete',data)
+            }
+        })
+    })
+    socket.on('currentUser send visitedUser',data =>{
+        const query = `select * from privateChat where ((fromEmail = '${data.fromEmail}') and (toEmail = '${data.toEmail}')) or ((fromEmail = '${data.toEmail}') and (toEmail = '${data.fromEmail}')) ;`
+        dbChat.query(query,(err,result)=>{
+            if (err){
+                console.log(err)
+            }
+            else{
+                const kq = JSON.parse(JSON.stringify(result))
+                socket.emit('server send privateChat',kq)
+            }
+        })
+
+    })
+    socket.on('user send privateMessage',data =>{
+        const query = `insert into privateChat (fromEmail,toEmail,message,file,day,fromName,toName) values ('${data.fromEmail}','${data.toEmail}','${data.message}','${data.file}','${data.day}','${data.fromName}','${data.toName}');`
+        dbChat.query(query,(err,result) =>{
+            if (err){
+                console.log(err)
+            }
+            else{
+                io.to(users[data.fromEmail]).emit('server send privateMessage',data)
+                io.to(users[data.toEmail]).emit('server send privateMessage',data)
+            }
+        })
+    })
+
     
 })
