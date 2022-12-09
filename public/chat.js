@@ -27,6 +27,7 @@ let visitedUser = ''
 let currentEmail = ''
 let visitedEmail = ''
 let nameRoom = ''
+
 fileInput.addEventListener('change',function(e){
     const reader = new FileReader();
     reader.addEventListener('load', ()=>{
@@ -67,6 +68,7 @@ function DownloadFile(){
 
 
 logout.addEventListener('click',()=>{
+    socket.emit('user logout')
     location = domain
 })
 btnSend.addEventListener('click',()=>{
@@ -138,11 +140,18 @@ socket.on('server send dataChat',data =>{
     chat.scrollTo(0,chat.scrollHeight)
 })
 socket.on('server tao phong chat',(data)=>{
+    if (currentEmail != ''){
+        location = domain
+        return
+    }
     privateChat = false
     title.innerText = data.nameRoom
     nameRoom = data.nameRoom
-    currentUser = data.currentUsername
-    currentEmail = data.email
+    if (currentUser == '' && currentEmail == ''){
+        currentUser = data.currentUsername
+        currentEmail = data.email
+    }
+   
     arrayFile = []
     data.dataChat.forEach(element => {
         if (element.file && element.file != ''){
@@ -154,7 +163,6 @@ socket.on('server tao phong chat',(data)=>{
     chat.scrollTo(0,chat.scrollHeight)
 })
 socket.on('server send privateChat',data =>{
-    console.log('aaaaaa',data)
     privateChat = true
     console.log('hello privateChat',data)
     title.innerText = 'Private Chat'
@@ -173,11 +181,13 @@ socket.on('server send privateChat',data =>{
 })
 socket.on('server send message',data=>{
     if (data.message == ''){
+        // dataChat.push(data)
         arrayFile.push(data.file)
         createFileDownload(data.file)
     }
   
     if (nameRoom == data.nameRoom && privateChat == false){
+        // dataChat.push(data)
         create_message(data)
         chat.scrollTo(0,chat.scrollHeight)
     }

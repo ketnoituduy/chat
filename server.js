@@ -192,7 +192,6 @@ const io = require('socket.io')(server,{
 io.on('connection',socket =>{
     console.log('ket noi thanh cong')
     users[currentEmail] = socket.id
-    //mangEmail.push(currentEmail)
     const query = `insert into connection (email) values ('${currentEmail}');`
     dbChat.query(query,(err,result)=>{
         if (err){
@@ -210,7 +209,7 @@ io.on('connection',socket =>{
                     kq.forEach(e => {
                         mangEmail.push(e.email)
                     });
-                   // console.log('mangEmail ketnoi',mangEmail)
+                    // console.log('mangEmail ketnoi',mangEmail)
                 }
             })
         }
@@ -218,6 +217,7 @@ io.on('connection',socket =>{
     socket.userName = currentUsername
     socket.email = currentEmail
     socket.on('disconnect',()=>{
+        console.log('mat ket noi')
         const query = `delete from connection where (email = '${socket.email}');`
         dbChat.query(query,(err,result)=>{
             if (err){
