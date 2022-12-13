@@ -8,10 +8,11 @@ danhsachRoom.setAttribute('method','post')
 // danhsachRoom.setAttribute('action','/chat')
 let email = ''
 let currentUser = ''
+let img = ''
 socket.on('server send Rooms',data =>{
-    console.log('asdasdasdsadasdasdasasdasd')
     email = data.email
     currentUser = data.username
+    img = data.img
     ulRoom.innerText = ''
     data.mangRoom.forEach(element => {
         const name = document.createElement('li')
@@ -32,7 +33,7 @@ socket.on('server send Rooms',data =>{
         name.append(submit)
         submit.addEventListener('click',(e)=>{
             danhsachRoom.setAttribute('action',`/chat/${element.name}`)
-            socket.emit('user vao phong chat',{nameRoom:element.name,email:email,username:currentUser})
+            socket.emit('user vao phong chat',{nameRoom:element.name,email:email,username:currentUser,img:img})
         })
 
         const key = document.createElement('span')

@@ -11,14 +11,21 @@ const btnSend = document.getElementById('btnSend')
 const title = document.querySelector('.title')
 const chat = document.getElementById('chat')
 const btnListRooms = document.getElementById('listRooms')
+const btnSetting = document.querySelector('.btnSetting')
+const btnClose = document.querySelector('.bxs-x-circle')
 const dropdown = document.querySelector('.dropdown')
 const fileInput = document.getElementById('inputFile')
+const fileChange = document.getElementById('file')
+const btnChange = document.getElementById('change')
 
+let clickLogout = false
 let clickRooms = false
+//let clickSetting = false
 let privateChat = false
 let valueBase64String = ''
 let typeFile = ''
 let fileUpload = ''
+let fileAvatar = ''
 let arrayFile = []
 let count = 0
 let countDelete = 0
@@ -26,7 +33,26 @@ let currentUser = ''
 let visitedUser = ''
 let currentEmail = ''
 let visitedEmail = ''
+let img = ''
+let imgVisited = ''
 let nameRoom = ''
+
+fileChange.addEventListener('change', async function(e){
+    const reader = new FileReader()
+    reader.addEventListener('load',()=>{
+        fileAvatar = reader.result
+        const imgAvatar =  document.getElementById('imgAvatar')
+        imgAvatar.style.background = `url(${fileAvatar})`
+        imgAvatar.style.width = '150px'
+        imgAvatar.style.height = '150px'    
+        imgAvatar.style.backgroundPosition = 'center'
+        imgAvatar.style.backgroundRepeat = 'no-repeat'
+        imgAvatar.style.backgroundSize = 'cover'
+        imgAvatar.style.borderRadius = '50%'
+        console.log(fileChange.value)
+    })
+    reader.readAsDataURL(fileChange.files[0])
+})
 
 fileInput.addEventListener('change',function(e){
     const reader = new FileReader();
@@ -42,10 +68,10 @@ fileInput.addEventListener('change',function(e){
         const hour = d.getHours()
         const dayString = hour + ':' + minute + ':' + second + ' ' + day + '/' + month + '/' + year
         if (privateChat == false){
-            socket.emit('user send message',{message:'',file:fileUpload,day:dayString,username:currentUser,email:currentEmail,nameRoom:nameRoom})
+            socket.emit('user send message',{message:'',file:fileUpload,day:dayString,username:currentUser,email:currentEmail,nameRoom:nameRoom,img:img})
         }
         else{
-            socket.emit('user send privateMessage',{message:'',file:fileUpload,day:dayString,fromName:currentUser,toName:visitedUser,fromEmail:currentEmail,toEmail:visitedEmail})
+            socket.emit('user send privateMessage',{message:'',file:fileUpload,day:dayString,fromName:currentUser,toName:visitedUser,fromEmail:currentEmail,toEmail:visitedEmail,imgFromName:img,imgToName:imgVisited})
         }
     })
     reader.readAsDataURL(fileInput.files[0]);
@@ -62,15 +88,80 @@ function Download(data,filename){
 function DownloadFile(){
     Download(valueBase64String,'test')
 }
+function upload(){
+    const oldPass = document.getElementById('oldpassword')
+    const newPass = document.getElementById('newpassword')
+    const repeatPass = document.getElementById('repeatnewpassword')
+    const newName = document.getElementById('newName')
+    if (oldPass.value.trim() != '' && newPass.value.trim() != '' && repeatPass.value.trim() != ''){
+        if (newPass.value.trim() == repeatPass.value.trim()){
+            socket.emit('user change',{oldPass:oldPass.value.trim(),newPass:newPass.value.trim(),email:currentEmail,avatar:fileAvatar,name:newName.value.trim()})
+        }
+        else{
+            alert('Nhập lai mật khẩu cho chính xác')
+        }
+    }
+    if (oldPass.value.trim() == '' && newPass.value.trim() == '' && repeatPass.value.trim() == ''){
+        if (newName.value.trim() != ''){
+            socket.emit('user change',{oldPass:oldPass.value.trim(),newPass:newPass.value.trim(),email:currentEmail,avatar:fileAvatar,name:newName.value.trim()})
+        }
+    }
+}
 
-
-// let arrayRooms = []
-
+btnChange.addEventListener('click',()=>{
+    if (fileAvatar != ''){
+        upload()
+        btnChange.setAttribute('type','submit')
+        document.querySelector('.containerSetting').setAttribute('action','/login')
+    }
+    else{
+        upload()
+    }
+})
+socket.on('server send update pass success',(data)=>{
+    alert('Cập nhật thành công')
+    currentUser = data
+    document.querySelector('.containerSetting').style.display = 'none'
+})
+socket.on('server send update pass failed',()=>{
+    alert('Cập nhật thất bại')
+})
 
 logout.addEventListener('click',()=>{
-    socket.emit('user logout')
-    location = domain
+   // socket.emit('user logout')
+    //location = domain
+    console.log('click')
+    if (!clickLogout){
+        document.querySelector('.setting').style.display = 'block'
+        clickLogout = true
+    }
+    else{
+        document.querySelector('.setting').style.display = 'none'
+        clickLogout = false
+    }
+    
 })
+btnListRooms.addEventListener('click',()=>{
+    if (clickRooms == true){
+        clickRooms = false
+        dropdown.style.display = 'none'
+    }
+    else{
+        clickRooms = true
+        dropdown.style.display = 'block'
+    }
+})
+btnSetting.addEventListener('click',()=>{
+    document.querySelector('.containerSetting').style.display = 'flex'
+})
+btnClose.addEventListener('click',()=>{
+    document.querySelector('.containerSetting').style.display = 'none'
+    document.getElementById('imgAvatar').style.background = 'transparent'
+    document.getElementById('imgAvatar').style.width = '0px'
+    document.getElementById('imgAvatar').style.height = '0px'
+    fileAvatar = ''
+})
+
 btnSend.addEventListener('click',()=>{
     
     if (textSend.value.trim()){
@@ -90,26 +181,16 @@ btnSend.addEventListener('click',()=>{
             `[e-${m.codePointAt(0).toString(16)}]`
         )
         if (privateChat == false){
-            socket.emit('user send message',{message:a,file:'',day:dayString,username:currentUser,email:currentEmail,nameRoom:nameRoom})
+            socket.emit('user send message',{message:a,file:'',day:dayString,username:currentUser,email:currentEmail,nameRoom:nameRoom,img:img})
         }
         else{
            
-            socket.emit('user send privateMessage',{message:a,file:'',day:dayString,fromName:currentUser,toName:visitedUser,fromEmail:currentEmail,toEmail:visitedEmail})
+            socket.emit('user send privateMessage',{message:a,file:'',day:dayString,fromName:currentUser,toName:visitedUser,fromEmail:currentEmail,toEmail:visitedEmail,imgFromName:img,imgToName:imgVisited})
         }
        
     }
 })
-btnListRooms.addEventListener('click',()=>{
-    if (clickRooms == true){
-        clickRooms = false
-        dropdown.style.display = 'none'
-    }
-    else{
-        clickRooms = true
-        dropdown.style.display = 'block'
-    }
-    
-})
+
 socket.on('server send Rooms',data =>{
     dropdown.innerText = ''
     data.mangRoom.forEach(e =>{
@@ -140,16 +221,18 @@ socket.on('server send dataChat',data =>{
     chat.scrollTo(0,chat.scrollHeight)
 })
 socket.on('server tao phong chat',(data)=>{
-    if (currentEmail != ''){
-        location = domain
-        return
-    }
+   
+    // if (currentEmail != ''){
+    //     location = domain
+    //     return
+    // }
     privateChat = false
     title.innerText = data.nameRoom
     nameRoom = data.nameRoom
     if (currentUser == '' && currentEmail == ''){
         currentUser = data.currentUsername
         currentEmail = data.email
+        img = data.img
     }
    
     arrayFile = []
@@ -161,6 +244,7 @@ socket.on('server tao phong chat',(data)=>{
         
     });
     chat.scrollTo(0,chat.scrollHeight)
+    console.log('current Email',currentEmail,'current User',currentUser,'img',data.img)
 })
 socket.on('server send privateChat',data =>{
     privateChat = true
@@ -209,7 +293,6 @@ socket.on('server send privateMessage',data =>{
         arrayFile.push(data.file)
         createFileDownload(data.file)
     }
-    console.log(data.toEmail,visitedEmail,data.fromEmail,currentEmail)
     if(((data.toEmail == visitedEmail && data.fromEmail == currentEmail)||(data.toEmail == currentEmail && data.fromEmail == visitedEmail)) && privateChat == true){
         create_message(data)
         chat.scrollTo(0,chat.scrollHeight)
@@ -242,8 +325,21 @@ function create_message(data){
     name.style.margin = '0'
     name.innerText = data.username + ':'
     content.appendChild(name)
+
+
+    
    
     if (privateChat == false){
+        const avatar = document.createElement('div')
+        avatar.style.background = `url(${data.img})`
+        avatar.style.backgroundSize = 'cover'
+        avatar.style.backgroundPosition = 'center'
+        avatar.style.backgroundRepeat = 'no-repeat'
+        avatar.style.width = '50px'
+        avatar.style.height = '50px'
+        avatar.style.borderRadius = '50%'
+        avatar.style.marginRight = '5px'
+        wrapperContent.appendChild(avatar)
         if (data.email == currentEmail){
             wrapperContent.style.justifyContent = 'flex-end'
             const btnDelete = document.createElement('button')
@@ -280,6 +376,16 @@ function create_message(data){
         }
     }
     else{
+        const avatar = document.createElement('div')
+        avatar.style.background = `url(${data.imgFromName})`
+        avatar.style.backgroundSize = 'cover'
+        avatar.style.backgroundPosition = 'center'
+        avatar.style.backgroundRepeat = 'no-repeat'
+        avatar.style.width = '50px'
+        avatar.style.height = '50px'
+        avatar.style.borderRadius = '50%'
+        avatar.style.marginRight = '5px'
+        wrapperContent.appendChild(avatar)
         if (data.fromEmail == currentEmail ){
             name.innerText = data.fromName + ':'
             wrapperContent.style.justifyContent = 'flex-end'

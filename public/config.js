@@ -9,3 +9,4 @@ export const domainRegister = 'https://chat-production-049e.up.railway.app/regis
 // export const DB_USER = process.env.DB_USER || 'root'
 // export const DB_PASSWORD = process.env.DB_PASSWORD || '123'
 // export const DB_NAME = process.env.DB_NAME || 'chatDatabase'
+

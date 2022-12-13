@@ -26,7 +26,14 @@
                     </class>
                 </div>
             </div>
-            <button id="logout"><i class='bx bx-power-off'></i></button>
+            <button id="logout">
+                <i class='bx bx-power-off'>
+                    <div class="setting">
+                        <a class="btnSetting">Setting</a>
+                        <a href="">Logout</a>
+                    </div>
+                </i>
+            </button>
             <div id="chatForm">
                 <div id="chat" >
                     <!-- <input type="button" id="listRooms" value="List Rooms"/> -->
@@ -40,6 +47,17 @@
 
             </div>
         </div>
+        <form class="containerSetting" method="post" enctype="multipart/form-data">
+            <input id="file" type="file" name="file" accept="image/*">
+            <label for="file" id="lblAvatar">Upload Avatar</label>
+            <div id="imgAvatar"></div>
+            <input type="text" name="" id="newName" placeholder="New Username">
+            <input id="oldpassword" type="password" placeholder="Old Password">
+            <input id="newpassword" type="password" placeholder="New Password">
+            <input id="repeatnewpassword" type="password" placeholder="Repeat New Password">
+            <input id="change" type="button" value="Change">
+            <i class='bx bxs-x-circle'></i>
+        </form>
     </div>
     <script src="chat.js" type="module"></script>
 </body>
