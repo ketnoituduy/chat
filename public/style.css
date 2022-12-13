@@ -182,6 +182,9 @@ h2{
     .containerChat{
         width: 100%;
     }
+    .containerSetting{
+        transform: translateY(50%);
+    }
     .wrapperChat{
         justify-content: flex-start;
     }
