@@ -278,12 +278,12 @@ socket.on('server send message',data=>{
    
 })
 socket.on('server send message delete', (data)=>{
-    const content = document.getElementById(`${data.id}`).childNodes[0]
+    const content = document.getElementById(`${data.id}`).childNodes[1]
     content.innerText = 'Tin nhắn đã bị thu hồi'
     content.style.background = 'gray'
 })
 socket.on('server send privateMessage delete', (data)=>{
-    const content = document.getElementById(`${data.id}`).childNodes[0]
+    const content = document.getElementById(`${data.id}`).childNodes[1]
     content.innerText = 'Tin nhắn đã bị thu hồi'
     content.style.background = 'gray'
 })
