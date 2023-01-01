@@ -1,7 +1,7 @@
 
 
 
-const DB_PORT = process.env.PORT || 6777
+const DB_PORT = process.env.PORT || 3000
 // const DB_HOST = process.env.DB_HOST || 'localhost'
 // const DB_USER = process.env.DB_USER || 'root'
 // const DB_PASSWORD = process.env.DB_PASSWORD || '123'
@@ -12,7 +12,7 @@ const app = express()
 const server = require('http').Server(app)
 
 server.listen(DB_PORT, ()=>{
-    console.log('listen port 6777')
+    console.log('listen port 3000')
 })
 
 const router = express.Router()
@@ -30,7 +30,7 @@ const mysql = require('mysql2')
 const { json } = require('express')
 const dbChat = mysql.createConnection({
     user:'root',
-    password:'ketGIW2NkSM8oBTibS7w',
+    password:'AzPHizg7DCjcYqOkq38h',
     host:'containers-us-west-148.railway.app',
     database:'railway',
     port:6777
