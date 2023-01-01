@@ -1,0 +1,412 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+.wrapper, .wrapperChat{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: linear-gradient(to right, black,rgba(0, 0, 0, 0.9));
+}
+.container *{
+    margin: 5px;
+    padding: 5px;
+}
+.container i{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    color: rgba(255, 255, 255, 0.463);
+}
+.container{
+    position: relative;
+    padding: 10px;
+    /* background: #c2671d1d; */
+    background: url('images/bg3.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    border-radius: 10px;
+}
+#txtName,#txtPass{
+    padding: 7px;
+}
+#email, #password, #txtName, #repassword,#oldpassword,#newpassword,#repeatnewpassword,#newName{
+    font-size: 1.2em;
+    padding: 5px;
+}
+.containerRegister *,.containerSetting *{
+    margin: 5px;
+    padding: 5px;
+}
+.containerRegister{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    border-radius: 10px;
+    position: relative;
+}
+.containerSetting{
+    display: none;
+    padding: 10px;
+    flex-direction: column;
+    width: 300px;
+    border-radius: 10px;
+    position: relative;
+    background: url('images/bg3.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    z-index: 10;
+}
+.containerSetting :not(.bxs-x-circle,#imgAvatar,#lblAvatar){
+    width: 100%;
+}
+.wrapperRegister{
+    background: url('images/bg3.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    z-index: 10;
+}
+
+.containerSetting .bx{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bxs-x-circle{
+    background: black;
+    width: 25px;
+    height:  25px;
+    font-size: 2.5em;
+    color: red;
+    cursor: pointer;
+    top:5px;
+    right:5px;
+    text-align: left;
+    position: absolute;
+
+}
+#file{
+    display: none;
+}
+#lblAvatar{
+    font-size: 1em;
+    color: white;
+    background: blue;
+    border: 1px solid white;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#btnReadyAccount{
+    background-color: transparent;
+    border: none;
+    color: rgb(8, 191, 8);
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 5px;
+}
+#login, #create,#change,#cancel{
+    background: rgb(7, 181, 7);
+    font-size: 1.2em;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+}
+#singup{
+    background-color: transparent;
+    border: none;
+    color: rgb(20, 226, 12);
+    width: 80px;
+    margin-left: auto;
+    margin-right: 15px;
+    font-size: 1.2em;
+    padding: 5px;
+}
+h2{
+    text-align: center;
+    color:whitesmoke;
+    font-size: 2em;
+}
+#singup:hover{
+    cursor: pointer;
+}
+#login:hover{
+    cursor: pointer;
+}
+.title{
+    color: white;
+    font-size: 1.5em;
+    text-align: center;
+}
+.containerChat *{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.containerChat{
+    position:fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: url('images/bg3.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 500px;
+    border-radius: 10px;
+}
+@media screen and (max-width:500px) {
+    .containerChat{
+        width: 100%;
+    }
+    .containerSetting{
+        transform: translateY(50%);
+    }
+    .wrapperChat{
+        justify-content: flex-start;
+    }
+    
+}
+#chatForm{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+#listUser{
+    text-align: center;
+    width: 25%;
+    border: 1px solid white;
+    border-radius: 5px;
+    max-height: 500px;
+    overflow: scroll;
+}
+#chat{
+    background: black;
+    width: 100%;
+    border-radius: 5px;
+    max-height: 450px;
+    overflow-y: scroll;
+}
+#send{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+#textSend{
+    width: 77%;
+    padding: 7px;
+    font-size: 1.2em;
+    background: black;
+    color: white;
+}   
+#btnSend{
+    width: 10%;
+    background: rgb(39, 138, 181);
+    color: white;
+    cursor: pointer;
+}
+#logout{
+    display: flex;
+    position: absolute;
+    background: red;
+    color: white;
+    top:3%;
+    right: 2%;
+    width: 32px;
+    height: 32px;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+#listRooms{
+    position: absolute;
+    color: white;
+    margin: 0;
+    padding: 7px;
+    top:3%;
+    left: 2%;
+    cursor: pointer;
+}
+#listRoomsContent{
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+#btnListRoom{
+    background-color: #1e54a0;
+    color: white;
+    padding: 7px;
+    font-size: 1.1em;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    border-radius: 3px;
+}
+.dropdown a{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 7px;
+    font-size: 1.2em;
+}
+.dropdown{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+}
+.setting{
+    display: none;
+    position: absolute;
+    background: url('images/d3ddm9j-f12ea7d6-2921-491f-b217-6cb6a711e701.png');
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    top: 30px;
+    right: 0px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.setting a{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: block;
+    text-decoration: none;
+    color:white;
+    padding: 5px;
+    font-size: 1em;
+
+}
+/* #listRooms:hover .dropdown{
+    display: block;
+} */
+.dropdown a:hover {
+    background-color:  #1e54a0;
+    color: white;
+}
+.setting a:hover {
+    background-color:  #01050b;
+    color: white;
+}
+/* .wrapperRoom{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+} */
+#rooms{
+    position: relative;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* background: #c2671d1d; */
+    border-radius: 5px;
+    padding: 5px;
+}
+#btnCreateRoom{    
+    position: absolute;
+    right: 2%;
+    top:10%;
+    background: red;
+    width: 30px;
+    height: 30px;
+    font-size: 1em;
+    padding: 5px;
+    color: white;
+}
+#rooms h1{
+    color: white;
+}
+#danhsachRoom{
+    margin-top: 20px;
+    width: 300px;
+    border: 1px solid black;
+    font-size: 1.5em;
+    text-align: center;
+    color: white;
+}
+#btnCreateRoom{
+    cursor: pointer;
+}
+#danhsachRoom ul{
+    list-style-type: none;
+}
+
+li{
+    border: 1px solid black;
+    padding: 5px;
+}
+#createRoom{
+    display: flex;
+    left: 0;
+    width: 300px;
+    flex-direction: column;
+    background: blue;
+    padding: 10px;
+    border-radius: 5px;
+   
+}
+#btnAdd{
+    background: rgb(2, 171, 2);
+    color: white;
+    padding: 7px;
+    cursor: pointer;
+}
+#createRoom h1{
+    margin-bottom: 10px;
+    text-align: center;
+    color: white;
+}
+
+#inputFile{
+    display: none;
+}
+#lblInputFile{
+    display: flex;
+    justify-content: center;
+    width: 10%;
+    cursor: pointer;
+    font-size: 2em;
+    color: white;
+}

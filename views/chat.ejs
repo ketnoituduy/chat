@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <base href="/">
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+    <div class="wrapperChat">
+        <div class="containerChat">
+            <div class="title">
+                Connect Peoples
+            </div>
+            <div id="listRooms">
+                <div id="listRoomsContent">
+                    <button id="btnListRoom">Rooms</button>
+                    <class class="dropdown">
+                        <a href="#">Link 1</a>
+                        <a href="#">Link 2</a>
+                        <a href="#">Link 3</a>
+                    </class>
+                </div>
+            </div>
+            <button id="logout">
+                <i class='bx bx-power-off'>
+                    <div class="setting">
+                        <a class="btnSetting">Setting</a>
+                        <a href="">Logout</a>
+                    </div>
+                </i>
+            </button>
+            <div id="chatForm">
+                <div id="chat" >
+                    <!-- <input type="button" id="listRooms" value="List Rooms"/> -->
+                </div>
+            </div>
+            <div id="send">
+                <input name="file" type="file" id="inputFile" accept="image/*,.pdf,.doc,.xls,.xlsx,.zip,.rar">
+                <label for="inputFile" id="lblInputFile"><i class='bx bx-paperclip'></i></label>
+                <input id="textSend" type="text" placeholder="typing message...">
+                <button id="btnSend"><i class='bx bx-send'></i></button>
+
+            </div>
+        </div>
+        <form class="containerSetting" method="post" enctype="multipart/form-data">
+            <input id="file" type="file" name="file" accept="image/*">
+            <label for="file" id="lblAvatar">Upload Avatar</label>
+            <div id="imgAvatar"></div>
+            <input type="text" name="" id="newName" placeholder="New Username">
+            <input id="oldpassword" type="password" placeholder="Old Password">
+            <input id="newpassword" type="password" placeholder="New Password">
+            <input id="repeatnewpassword" type="password" placeholder="Repeat New Password">
+            <input id="change" type="button" value="Change">
+            <i class='bx bxs-x-circle'></i>
+        </form>
+    </div>
+    <script src="chat.js" type="module"></script>
+</body>
+</html>
