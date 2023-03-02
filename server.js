@@ -30,7 +30,7 @@ const mysql = require('mysql2')
 const { json } = require('express')
 const dbChat = mysql.createConnection({
     user:'root',
-    password:'GZoT8ryXcDQb61cC5tz3',
+    password:'XqtGEqlTw6obmftlJBUN',
     host:'containers-us-west-148.railway.app',
     database:'railway',
     port:6777
